@@ -6,7 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -72,9 +74,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> newses) {
+        /**
+         * Hide the loading progress bar from the screen, as loading should now be finished.
+         */
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.loading_spinner);
+        progressBar.setVisibility(View.GONE);
+
+        /**
+         * Set NewsAdapter and attach ArrayList received as a parameter.
+         */
         NewsAdapter itemsAdapter = new NewsAdapter(MainActivity.this, (ArrayList) newses);
         ListView listView = (ListView) findViewById(R.id.list_item);
 
+        // Set empty state of the activity
         listView.setEmptyView(mEmptyStateView);
 
         listView.setAdapter(itemsAdapter);
